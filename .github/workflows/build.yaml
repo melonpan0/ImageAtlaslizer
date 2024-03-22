@@ -26,6 +26,11 @@ jobs:
               run: dotnet test --no-build --verbosity normal
             - name: Publish
               run: dotnet publish ./ImageAtlaslizer.csproj --configuration Release --output ./outputs --runtime win-x64 --self-contained false
+            - name: Adjust Build File.
+              run: |
+                mkdir ./outputs/Import ./outputs/Export
+                cp ./config.json ./outputs
+                rm ./outputs/*.deps.json ./outputs/*.pdb
             - name: Upload Artifact
               uses: actions/upload-artifact@v4
               with:
