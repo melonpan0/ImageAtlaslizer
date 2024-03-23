@@ -1,6 +1,6 @@
 {
-  "AspectRatioHori": 1920,
-  "AspectRatioVert": 1080,
+  "AspectRatioHori": 1,
+  "AspectRatioVert": 1.41421356,
   "AtlasImageWidth": 2048,
   "AtlasImageHeight": 2048,
   "Row": 2,
