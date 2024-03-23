@@ -19,21 +19,18 @@ jobs:
                 dotnet-version: 8.0.x
             - name: Restore dependencies
               run: dotnet restore
-            - name: Build
+            - name: Build Project
               run: dotnet build --no-restore
-              # run: dotnet build --no-restore -o outputs\${{ env.app_x64_self_name }}
-            - name: Test
+            - name: Test Project
               run: dotnet test --no-build --verbosity normal
             - name: Publish
               run: dotnet publish ./ImageAtlaslizer.csproj --configuration Release --output ./outputs --runtime win-x64 --self-contained false
-            - name: Adjust Build File.
+            - name: Adjust Build File
               run: |
                 mkdir -p ./outputs/{Import,Export}
                 touch ./outputs/{Import,Export}/.gitkeep
                 cp ./config.json ./outputs
                 rm ./outputs/{*.deps.json,*.pdb}
-            - name: show File Tree
-              run: pwd;find . | sort | sed '1d;s/^\.//;s/\/\([^/]*\)$/|--\1/;s/\/[^/|]*/|  /g'
             - name: Upload Artifact
               uses: actions/upload-artifact@v4
               with:
