@@ -33,8 +33,6 @@ jobs:
                 rm ./outputs/{*.deps.json,*.pdb}
             - name: show File Tree
               run: pwd;find . | sort | sed '1d;s/^\.//;s/\/\([^/]*\)$/|--\1/;s/\/[^/|]*/|  /g'
-              with:
-                path: outputs
             - name: Upload Artifact
               uses: actions/upload-artifact@v4
               with:
