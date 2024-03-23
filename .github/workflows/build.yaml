@@ -29,6 +29,7 @@ jobs:
             - name: Adjust Build File.
               run: |
                 mkdir -p ./outputs/{Import,Export}
+                touch ./outoputs/{Import,Export}/.gitkeep
                 cp ./config.json ./outputs
                 rm ./outputs/{*.deps.json,*.pdb}
             - name: show File Tree
