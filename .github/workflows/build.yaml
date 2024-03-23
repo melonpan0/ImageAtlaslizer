@@ -1,0 +1,38 @@
+﻿name: "Build"
+on: [deployment, push, workflow_dispatch]
+
+jobs:
+    build:
+        permissions:
+            contents: write
+        runs-on: ubuntu-latest
+        outputs:
+            updated: ${{ steps.update.outputs.updated }}
+        steps:
+            - name: Checkout branch
+              uses: actions/checkout@v4
+              with:
+                fetch-depth: 0
+            - name: Install .NET Core
+              uses: actions/setup-dotnet@v4
+              with:
+                dotnet-version: 8.0.x
+            - name: Restore dependencies
+              run: dotnet restore
+            - name: Build Project
+              run: dotnet build --no-restore
+            - name: Test Project
+              run: dotnet test --no-build --verbosity normal
+            - name: Publish
+              run: dotnet publish ./ImageAtlaslizer.csproj --configuration Release --output ./outputs --runtime win-x64 --self-contained false
+            - name: Adjust Build File
+              run: |
+                mkdir -p ./outputs/{Import,Export}
+                touch ./outputs/{Import,Export}/.gitkeep
+                cp ./config.json ./outputs
+                rm ./outputs/{*.deps.json,*.pdb}
+            - name: Upload Artifact
+              uses: actions/upload-artifact@v4
+              with:
+                name: ImageAtlaslizer
+                path: outputs
